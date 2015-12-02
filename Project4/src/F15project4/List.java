@@ -16,7 +16,7 @@ public class List<E> {
 	private Node<E> top; 
 
 	/*******************************************************************
-	 * This is the cunstructor that sets the inital node of top to null
+	 * This is the constructor that sets the initial node of top to null
 	 * since there is no data yet for the list
 	 ******************************************************************/
 	public List() {
@@ -178,7 +178,7 @@ public class List<E> {
 		
 		//used to traverse link to specific spot then delete next link
 		Node<E> temp = top;
-		for(int i=0; i<spot;i++){
+		for(int i=0; i<spot-1;i++){
 			temp = temp.getNext();
 		}
 		temp.setNext(temp.getNext().getNext());

@@ -339,8 +339,11 @@ public class Mix implements IMix{
 				
 				//if the first node is deleted it is handled differently
 				if(position == 0){
+					String temp;
+					temp = secretText.toString().substring
+							(position, position+1);
 					secretText.delete(0,secretText.size());
-					validCommands.addAtEnd(command);
+					validCommands.addAtEnd(command + " " + temp );
 				}
 				
 				//If the node to be deleted isn't the first then it 
@@ -349,10 +352,14 @@ public class Mix implements IMix{
 					
 					//uses the delete with a position marker to 
 					//delete a node in a particular position
-					secretText.delete(position-1, secretText.size());
+					String temp2;
+					temp2 = secretText.toString().substring
+							(position, position+1);
+					secretText.delete(position, secretText.size());
+					
 					
 					//saves the valid command to other list
-					validCommands.addAtEnd(command);
+					validCommands.addAtEnd(command + " " + temp2 );
 				}
 				System.out.println("-----------------------------------"
 						+ "\nCurrent Message: ");
