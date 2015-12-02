@@ -3,6 +3,9 @@
  */
 package F15project4;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 
@@ -22,14 +25,14 @@ public class Mix implements IMix{
 			return "Q";
 		}	
 		
-		if(command.length()<= 2){
+		if(command.length() <= 2 || command.length() > 5){
 			System.out.println("\nYou entered an incorrect command,"
-					+ "please try again\n");
+					+ "please try again");
 		}
-			
-		if(command.substring(0,1).equals("b")){
-			if(!command.substring(1,2).equals(" ") || 
-					!command.substring(3,4).equals(" ")){
+		
+		if(command.startsWith("s")){
+			if(!command.substring(1,2).equals(" ") ||
+					command.length()!= 3){
 				System.out.println("\nYou entered an incorrect command,"
 						+ "please try again\n");
 				System.out.println("-----------------------------------"
@@ -37,11 +40,94 @@ public class Mix implements IMix{
 				return secretText.toString();
 			}
 			else{
-				System.out.println("\n" + command.substring(2,3)+ "\n");
+				
+		}
+		
+		//Start of the remove command///////////////////////
+		if(command.startsWith("r")){
+			if(!command.substring(1,2).equals(" ") ||
+					command.length()!= 3){
+				System.out.println("\nYou entered an incorrect command,"
+						+ "please try again\n");
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
 				return secretText.toString();
 			}
+			else{
+				try{
+				int position = Integer.valueOf(command.substring(2,3));
+				if(secretText.size()<position){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+				if(position == 0){
+					secretText.delete(0,secretText.size());
+					validCommands.addAtEnd(command);
+				}
+				else{
+					secretText.delete(position-1, secretText.size());
+					validCommands.addAtEnd(command);
+				}
+				System.out.println(validCommands.toString());
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+				}catch(NumberFormatException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+			}
 		}
-			
+		
+		//Start of the place character before command//////////
+		if(command.startsWith("b")){
+			if(!command.substring(1,2).equals(" ") || 
+					!command.substring(3,4).equals(" ")||
+					command.length()!= 5){
+				System.out.println("\nYou entered an incorrect command,"
+						+ "please try again\n");
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+			}
+			else{
+				try{
+				int position = Integer.valueOf(command.substring(4,5));
+				if(secretText.size()<position){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+				if(position == 0){
+					secretText.addfirst(command.substring(2,3));
+					validCommands.addAtEnd(command);
+				}
+				else{
+					secretText.addAt(command.substring(2,3), position);
+					validCommands.addAtEnd(command);
+				}
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+				}catch(NumberFormatException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+			}
+		}
+		
+		//fallback in case nothing is entered
 		else{
 			System.out.println("-------------------------------------"
 					+ "\nCurrent Message: ");

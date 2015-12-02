@@ -3,6 +3,8 @@
  */
 package F15project4;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -38,6 +40,7 @@ public class List<E> {
 		}
 		return counter;
 	}
+	
 	public void display() {
 		//				System.out.println (top.getData());
 		//				System.out.println (top.getNext().getData());
@@ -83,6 +86,24 @@ public class List<E> {
 		}
 	} 
 
+	public void addAt(E added, int spot){
+		if (top == null) {
+			top = new Node<E> (added, top);
+		}
+
+		else {
+			Node<E> temp = top;
+			for(int i=0; i<spot-1;i++){
+				temp = temp.getNext();
+			}
+
+			Node<E> temp2 = new Node<E>();
+			temp2.setData(added);
+			temp2.setNext(temp.getNext());
+
+			temp.setNext(temp2);
+		}
+	}
 
 	public boolean delete (E data) {
 		
@@ -137,6 +158,30 @@ public class List<E> {
 		return true;
 	}
 	
+	public void saveList(String fileName){
+		String file_name = fileName;
+        try {
+
+            FileWriter fstream = new FileWriter(file_name);
+            BufferedWriter out = new BufferedWriter(fstream);
+
+            
+            
+            
+
+            ListIterator itr = account.listIterator();
+            while (itr.hasNext()) {
+                Account element = (Account) itr.next();
+                out.write(element + "\n");
+            }
+
+            out.close();
+            System.out.println("File created successfully.");
+
+        } catch (Exception e) {
+        }
+	}
+	
 	public String toString(){
 		String listAsString = "";
 		
@@ -156,16 +201,19 @@ public class List<E> {
 	}
 	public static void main (String[] args){
 		
-		/*
+		
 		List<String> list = new List<String>();
 		list.addfirst("pizza1");
 		list.addAtEnd("pizza2");
 		list.addAtEnd("pizza3");
 		list.display();
-		System.out.println(list.size());
+		System.out.println("--------------");
 		list.delete(1,list.size());
 		list.display();
-		*/
+		System.out.println("--------------");
+		list.addAt("hey", 2);
+		list.display();
+		System.out.println("--------------");
 	}
 
 
