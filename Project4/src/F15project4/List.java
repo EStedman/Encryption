@@ -22,13 +22,7 @@ public class List<E> {
 
 	public void addfirst (E data) {
 
-			top = new Node<E>(data, top);
-		
-
-		//		    Node temp = new Node();
-		//		    temp.setData(data);
-		//		    temp.setNext(top);
-		//		    top = temp;
+		top = new Node<E>(data, top);
 	}
 
 	public int size(){
@@ -42,10 +36,6 @@ public class List<E> {
 	}
 	
 	public void display() {
-		//				System.out.println (top.getData());
-		//				System.out.println (top.getNext().getData());
-		//				System.out.println (top.getNext().getNext().getData());
-
 		Node<E> temp = top;
 		while (temp != null) {
 			System.out.println (temp.getData());
@@ -164,17 +154,16 @@ public class List<E> {
 
             FileWriter fstream = new FileWriter(file_name);
             BufferedWriter out = new BufferedWriter(fstream);
-
             
-            
-            
-
-            ListIterator itr = account.listIterator();
-            while (itr.hasNext()) {
-                Account element = (Account) itr.next();
-                out.write(element + "\n");
-            }
-
+            Node<E> temp = top;
+    		if(temp != null) {
+				while (temp.getNext() != null) {
+					out.write((String)temp.getData());
+					out.newLine();
+					temp = temp.getNext();		
+				}
+    		}
+    		out.write((String) temp.getData());
             out.close();
             System.out.println("File created successfully.");
 
@@ -199,6 +188,25 @@ public class List<E> {
 		
 		return listAsString;
 	}
+
+	public void swap(int first, int second){
+		
+		String spot1;
+		String spot2;
+		Node<E> temp = top;
+		for(int i=0; i<first-1;i++){
+			temp = temp.getNext();
+		}
+		spot1 = (String) temp.getData();
+		Node<E> temp2 = top;
+		for(int i=0; i<second;i++){
+			temp2 = temp2.getNext();
+		}
+		spot2 = (String) temp2.getData();
+		temp2.setData((E)spot1);
+		temp.setData((E)spot2);
+	}
+	
 	public static void main (String[] args){
 		
 		
@@ -212,6 +220,12 @@ public class List<E> {
 		list.display();
 		System.out.println("--------------");
 		list.addAt("hey", 2);
+		list.display();
+		System.out.println("--------------");
+		list.saveList("SaveTest.txt");
+		list.display();
+		System.out.println("--------------");
+		list.swap(0, 2);
 		list.display();
 		System.out.println("--------------");
 	}

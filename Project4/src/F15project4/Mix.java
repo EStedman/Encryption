@@ -30,9 +30,53 @@ public class Mix implements IMix{
 					+ "please try again");
 		}
 		
+		//Start of swap command /////////////////
+		if(command.startsWith("w")){
+			if(!command.substring(1,2).equals(" ")||
+					!command.substring(3,4).equals(" ")||
+					command.length() != 5){
+				System.out.println("\nYou entered an incorrect command,"
+						+ "please try again\n");
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+			}
+			try{
+				int position = Integer.valueOf(command.substring(2,3));
+				int position2 = Integer.valueOf(command.substring(4,5));
+				if(secretText.size()<position || 
+						secretText.size()<position2){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+				else{
+					secretText.swap(position, position2);
+					validCommands.addAtEnd(command);
+				}
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+				}catch(NumberFormatException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}catch(NullPointerException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+		}
+		
+		//Start of the save command/////////////
 		if(command.startsWith("s")){
-			if(!command.substring(1,2).equals(" ") ||
-					command.length()!= 3){
+			if(!command.substring(1,2).equals(" ")){
 				System.out.println("\nYou entered an incorrect command,"
 						+ "please try again\n");
 				System.out.println("-----------------------------------"
@@ -40,7 +84,9 @@ public class Mix implements IMix{
 				return secretText.toString();
 			}
 			else{
-				
+				validCommands.saveList(command.substring(2));
+				return secretText.toString();
+			}
 		}
 		
 		//Start of the remove command///////////////////////
@@ -71,11 +117,16 @@ public class Mix implements IMix{
 					secretText.delete(position-1, secretText.size());
 					validCommands.addAtEnd(command);
 				}
-				System.out.println(validCommands.toString());
 				System.out.println("-----------------------------------"
 						+ "\nCurrent Message: ");
 				return secretText.toString();
 				}catch(NumberFormatException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}catch(NullPointerException nfe){
 					System.out.println("\nYou entered an incorrect "
 							+ "command,please try again\n");
 					System.out.println("-------------------------------"
@@ -184,72 +235,4 @@ public class Mix implements IMix{
 		}
 		
 	}
-	
-	
-	
-	
-	/*
-	public String processCommand(String command) {
-		
-		//String temp = command;
-		if(command == "Q"){
-			JOptionPane.showMessageDialog(null, "Your message is: " 
-					+ secretText.toString());
-			return command;
-		}
-		else{
-			String temp = JOptionPane.showInputDialog(
-				"How would you like to alter your message!\nx & # means"
-				+ " cut to clipboard, starting at & to # (inclusive)" +
-				"\np # 	means paste from clipboard, start at #\nc & #" +
-				" means copy to clipboard, starting at & to # "
-				+ "(inclusive)");
-			
-			JOptionPane.showMessageDialog(null, "Your message is: " 
-					+ secretText.toString());
-			secretText.display();
-			System.out.println("---------");
-			System.out.println(temp);
-			System.out.println("---------");
-			return temp;
-		}
-	}
-
-	public void setInitialMessage(String message) {
-		
-		for(int i=0; i<message.length(); i++){
-			secretText.addAtEnd(message.substring(i,i+1));
-		}
-		JOptionPane.showMessageDialog(null, "Your message is: " 
-		+ secretText.toString());
-		secretText.display();
-		
-	}
-	public static void main (String[] args){
-		Mix secretText = new Mix();
-		String newCommand = "";
-		
-		String message = JOptionPane.showInputDialog(
-				"Message to be encrypted: ");
-		secretText.setInitialMessage(message);
-		
-		newCommand = JOptionPane.showInputDialog(
-				"How would you like to alter your message!\nx & # means"
-				+ " cut to clipboard, starting at & to # (inclusive)" +
-				"\np # 	means paste from clipboard, start at #\nc & #" +
-				" means copy to clipboard, starting at & to # "
-				+ "(inclusive)");
-		/*if(secretText.processCommand(newCommand) == "Q")
-			JOptionPane.showMessageDialog(null, "Goodbye");
-		else{
-			newCommand = JOptionPane.showInputDialog(
-					"How would you like to alter your message!\nx & # means"
-					+ " cut to clipboard, starting at & to # (inclusive)" +
-					"\np # 	means paste from clipboard, start at #\nc & #" +
-					" means copy to clipboard, starting at & to # "
-					+ "(inclusive)");
-			
-		}*/
-		
-	//}
 }
