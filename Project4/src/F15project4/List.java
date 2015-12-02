@@ -3,6 +3,10 @@
  */
 package F15project4;
 
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
 /**
  * @author xxevanxx007
  *
@@ -16,7 +20,8 @@ public class List<E> {
 
 	public void addfirst (E data) {
 
-		top = new Node<E> (data, top);
+			top = new Node<E>(data, top);
+		
 
 		//		    Node temp = new Node();
 		//		    temp.setData(data);
@@ -24,6 +29,15 @@ public class List<E> {
 		//		    top = temp;
 	}
 
+	public int size(){
+		int counter = 1;
+		Node<E> temp = top;
+		while (temp.getNext() != null) {
+			temp = temp.getNext();
+			counter++;		
+		}
+		return counter;
+	}
 	public void display() {
 		//				System.out.println (top.getData());
 		//				System.out.println (top.getNext().getData());
@@ -67,57 +81,91 @@ public class List<E> {
 
 			temp.setNext(temp2);
 		}
-
 	} 
 
 
 	public boolean delete (E data) {
-
+		
+		// check for empty list
 		if (top == null) 
 			return false;
 		
+		// check if top element is the target
 		if (top.getData().equals(data)) {
 			top = top.getNext();
 			return true;
 		}
 		
+		Node<E> temp = top;
+		while (temp.getNext() != null) {
+			if (temp.getNext().getData().equals(data)) {
+				temp.setNext(temp.getNext().getNext());
+				return true;
+			}
+			temp = temp.getNext();		
+		}
+		
 		return true;
-		 
 	}
-
-	public void deleteHalfWay() {
-
-
+	
+	public boolean delete (int spot, int size) {
+		
+		// check for empty list
+		if (top == null) 
+			return false;
+		
+		// check if top element is the target
+		if (spot == 0) {
+			top = top.getNext();
+			return true;
+		}
+		if(spot == size()){
+			Node<E> temp = top;
+			for(int i=0; i<spot;i++){
+				temp = temp.getNext();
+			}
+			temp.setNext(null);
+		}
+		
+		
+		Node<E> temp = top;
+		for(int i=0; i<spot;i++){
+			temp = temp.getNext();
+		}
+		temp.setNext(temp.getNext().getNext());
+		
+		return true;
 	}
-
-
+	
+	public String toString(){
+		String listAsString = "";
+		
+		if (top == null) 
+			return "";
+		
+		else {
+			Node<E> temp = top;
+			listAsString += temp.getData();
+			while (temp.getNext() != null) {
+				listAsString += temp.getNext().getData(); 
+				temp = temp.getNext();		
+			}
+		}
+		
+		return listAsString;
+	}
 	public static void main (String[] args){
+		
+		/*
 		List<String> list = new List<String>();
-		
-		list.addAtEnd("pizza5");
 		list.addfirst("pizza1");
-		list.addfirst("pizza2");
-		list.addfirst("pizza3");
-		list.addAtEnd("pizza4");
-
+		list.addAtEnd("pizza2");
+		list.addAtEnd("pizza3");
 		list.display();
-		
-		list.delete("pizza1");
+		System.out.println(list.size());
+		list.delete(1,list.size());
 		list.display();
-		
-
-		//		list.addAtEnd("pizza11");
-
-		//		list.addfirst("pizza3");
-		//		list.addfirst("pizza4");
-		//		list.addfirst("pizza5");
-		//		list.addfirst("pizza6");
-		//		list.addfirst("pizza7");
-		//		list.addfirst("pizza8");
-		//		list.addAtEnd("pizza9");
-
-		//list.display();
-
+		*/
 	}
 
 
