@@ -26,7 +26,7 @@ public class Mix implements IMix{
 			return "Q";
 		}	
 		
-		if(command.length() <= 2 || command.length() > 5){
+		if(command.length() <= 2){
 			System.out.println("\nYou entered an incorrect command,"
 					+ "please try again");
 		}
@@ -58,7 +58,6 @@ public class Mix implements IMix{
 					clipboard = secretText.toString();
 					clipboard = clipboard.substring
 							(position, position2+1);
-					System.out.println("\n"+clipboard+"\n");
 					validCommands.addAtEnd(command);
 				}
 				System.out.println("-----------------------------------"
