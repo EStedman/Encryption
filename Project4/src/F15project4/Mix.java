@@ -17,6 +17,7 @@ public class Mix implements IMix{
 
 	List<String> secretText = new List<String>();
 	List<String> validCommands = new List<String>();
+	String clipboard = "";
 
 	public String processCommand(String command) {
 		
@@ -30,11 +31,158 @@ public class Mix implements IMix{
 					+ "please try again");
 		}
 		
+		//Start of copy////////////////////////////////////////
+		if(command.startsWith("c")){
+			if(!command.substring(1,2).equals(" ")||
+					!command.substring(3,4).equals(" ")||
+					command.length() != 5){
+				System.out.println("\nYou entered an incorrect command,"
+						+ "please try again\n");
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+			}
+			try{
+				int position = Integer.valueOf(command.substring(2,3));
+				int position2 = Integer.valueOf(command.substring(4,5));
+				if(secretText.size()<position || 
+						secretText.size()<position2||
+						position > position2){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+				else{
+					clipboard = secretText.toString();
+					clipboard = clipboard.substring
+							(position, position2+1);
+					System.out.println("\n"+clipboard+"\n");
+					validCommands.addAtEnd(command);
+				}
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+				}catch(NumberFormatException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}catch(NullPointerException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+		}
+		
+		//Start of paste////////////////////////////////////////
+		if(command.startsWith("p")){
+			if(!command.substring(1,2).equals(" ")||
+					command.length()!=3){
+				System.out.println("\nYou entered an incorrect command,"
+						+ "please try again\n");
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+			}
+			try{
+				int position = Integer.valueOf(command.substring(2,3));
+				if(secretText.size()<position){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+				if(position == 0){
+					secretText.addfirst(command.substring(2,3));
+					validCommands.addAtEnd(command);
+				}
+				else{
+					if(position == 0){
+						for(int i = 0; i < clipboard.length();i++){
+							secretText.addfirst(clipboard.substring(
+									clipboard.length()-i-1,
+									clipboard.length()-i));
+						}
+					}
+					for(int i = 0; i < clipboard.length();i++){
+						secretText.addAt(clipboard.substring(
+								clipboard.length()-i-1,
+								clipboard.length()-i), position);
+					}
+					validCommands.addAtEnd(command);
+				}
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+				}catch(NumberFormatException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+		}
+		
+		//Start of cut////////////////////////////////////////
+		if(command.startsWith("x")){
+			if(!command.substring(1,2).equals(" ")||
+					!command.substring(3,4).equals(" ")||
+					command.length() != 5){
+				System.out.println("\nYou entered an incorrect command,"
+						+ "please try again\n");
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+			}
+			try{
+				int position = Integer.valueOf(command.substring(2,3));
+				int position2 = Integer.valueOf(command.substring(4,5));
+				if(secretText.size()<position || 
+						secretText.size()<position2||
+						position > position2){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+				else{
+					clipboard = secretText.toString();
+					clipboard = clipboard.substring
+							(position, position2+1);
+					secretText.deleteFrom(position, position2);
+					validCommands.addAtEnd(command);
+				}
+				System.out.println("-----------------------------------"
+						+ "\nCurrent Message: ");
+				return secretText.toString();
+				}catch(NumberFormatException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}catch(NullPointerException nfe){
+					System.out.println("\nYou entered an incorrect "
+							+ "command,please try again\n");
+					System.out.println("-------------------------------"
+							+ "\nCurrent Message: ");
+					return secretText.toString();
+				}
+		}
+		
 		//Start of swap command /////////////////
 		if(command.startsWith("w")){
 			if(!command.substring(1,2).equals(" ")||
 					!command.substring(3,4).equals(" ")||
-					command.length() != 5){
+					command.length() != 5||
+					secretText.size()<2){
 				System.out.println("\nYou entered an incorrect command,"
 						+ "please try again\n");
 				System.out.println("-----------------------------------"
@@ -180,6 +328,8 @@ public class Mix implements IMix{
 		
 		//fallback in case nothing is entered
 		else{
+			System.out.println("\nYou entered an incorrect "
+					+ "command,please try again\n");
 			System.out.println("-------------------------------------"
 					+ "\nCurrent Message: ");
 			return secretText.toString();

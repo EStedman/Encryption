@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class List<E> {
 	private Node<E> top; 
+	private Node<E> duplicate;
 
 	public List() {
 		top = null;   // 0000
@@ -148,6 +149,28 @@ public class List<E> {
 		return true;
 	}
 	
+	public void deleteFrom(int start, int end){
+		
+		Node<E> temp = top;
+		for(int i=0; i<start-1;i++){
+			temp = temp.getNext();
+			
+		}
+		
+		Node<E> temp2 = top;
+		for (int x=0;x<end;x++){
+			temp2 = temp2.getNext();
+			if(temp2.getNext() == null){
+				temp.setNext(null);
+			}
+			else{
+				temp.setNext(temp2.getNext());
+			}
+		}
+		if(start == 0)
+			top = top.getNext();
+	}
+	
 	public void saveList(String fileName){
 		String file_name = fileName;
         try {
@@ -194,7 +217,7 @@ public class List<E> {
 		String spot1;
 		String spot2;
 		Node<E> temp = top;
-		for(int i=0; i<first-1;i++){
+		for(int i=0; i<first;i++){
 			temp = temp.getNext();
 		}
 		spot1 = (String) temp.getData();
@@ -226,6 +249,15 @@ public class List<E> {
 		list.display();
 		System.out.println("--------------");
 		list.swap(0, 2);
+		list.display();
+		System.out.println("--------------");
+		list.addAtEnd("pizza4");
+		list.addAtEnd("pizza5");
+		list.addAtEnd("pizza6");
+		list.addAtEnd("pizza7");
+		list.display();
+		System.out.println("--------------");
+		list.deleteFrom(1, 6);
 		list.display();
 		System.out.println("--------------");
 	}
